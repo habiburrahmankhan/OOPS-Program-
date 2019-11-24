@@ -1,5 +1,15 @@
 #include<iostream>
 using namespace std ;
+
+
+void hrkhan()
+{
+	cout<<"Name :- Habiburrahman"<<endl;
+	cout<<"Rollno :-  17BCS071 "<<endl;
+	cout<<"B-Tech 5th Semester (Compute Engineering ) "<<endl;
+	cout<<endl;
+}
+
 template<class T>
 class Node
 {
@@ -68,6 +78,7 @@ T linkedlist<T> :: deleteatbegin()
     }
   head = head->next ; 
   size--;
+  return data ;
 } 
 
 template<class T > 
@@ -94,14 +105,15 @@ T linkedlist<T> :: deleteatlast()
     return 0 ;
   }
   Node<T> *temp = head ;
-  int last = tail->data ;
-  while(temp->next!=NULL)
+  T last = tail->data ;
+  while(temp->next!=tail)
   {
     temp=temp->next ;
   }
   tail = temp ;
   temp->next = NULL ; 
    size--;
+   return last ;
 }
 template<class T > 
 void linkedlist<T> :: display()
@@ -112,6 +124,7 @@ void linkedlist<T> :: display()
 		cout<< node->data <<endl;
 		node= node->next ;
 	}
+	cout<<endl;
 }
 template<class T>
 int linkedlist<T> :: length()
@@ -128,41 +141,75 @@ void linkedlist<T> :: insertatindex(T data , int i)
     cout<<"th lenth of linked list is less "<<endl;
     return;
   }
-  i=i-1;
-  if (i==0)
+  if (i==1)
   {
      insertatbegin(data);
-  }else if (i==this->size-1)
+  }else if (i==this->size)
   {
     insertatlast(data);
   }
   else
   {
     Node<T> *node = head ;
-    for (int j = 0; j <i ; j++)
+    for (int j = 0; j<i-2; j++)
     {
          node=node->next ;
     }
     Node<T> *newNode = new Node<T>(data);
-    newNode->next = (node->next)->next;
+    newNode->next = (node->next);
     node->next = newNode ;
      this->size++;
   }
  
 }
+template<class T>
+T linkedlist<T> :: deleteatindex(int i)
+{
+  T data=0; 
+  if (i>this->size || i==0)
+  {
+    cout<<"th lenth of linked list is less "<<endl;
+  }
+  if (i==1)
+  {
+     return deleteatbegin();
+  }else if (i==this->size)
+  {
+   return deleteatlast();
+  }
+  else
+  {
+  	Node<T> *node = head ; 
+    for (int j = 0; j<i-2; j++)
+    {
+         node=node->next ;
+    }
+    data =node->next->data ;
+    node->next=node->next->next; 
+     this->size--;
+     return data ;
+  }
+  
+}
 
 int main()
 {
+	hrkhan();
    linkedlist<int> ll ;
    ll.createlist();
    ll.insertatbegin(10);
    ll.insertatlast(20);
+   ll.insertatlast(45);
+   ll.insertatlast(55);
+   ll.insertatlast(65);
    ll.insertatbegin(5);
    ll.insertatlast(25);
    ll.insertatindex(15 ,3);
    ll.display();
-   cout<<"the deleted element is from begin " <<ll.deleteatbegin();
-   cout<<"the deleted element is from end " <<ll.deleteatlast();
+    cout<<"the length ofthe list "  << ll.length()<<endl;
+   cout<<"the deleted element is from begin " <<ll.deleteatbegin()<<endl;
+   cout<<"the deleted element is from end " <<ll.deleteatlast()<<endl;
+   cout<<"the deleted element at positon i  " <<ll.deleteatindex(2)<<endl;
    ll.display();
     cout<<"the length ofthe list "  << ll.length()<<endl;
 	return 0 ;
